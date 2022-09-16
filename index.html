@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sapper</title>
+    <link rel="stylesheet" href="sourse/css/game.css">
+    <link rel="stylesheet" href="sourse/css/lib/reset.css">
+    <link rel="icon" href="Images/flag.png">
+</head>
+
+<body>
+    <section>
+        <div>
+            <h2 id="Boomb_Title">Boomb <span id="Boomb_Total"></span></h2>
+        </div>        
+        
+        <div class="float_right">
+            <canvas id="main_canvas" width="500" height="500"> </canvas>	
+        </div>
+
+        <div class="float_left">
+            <button id="buttonReset">Reset</button>
+        </div>
+
+        <div id="pWindow" style="display: none;" class="WinWindow">
+            <span>
+                <h2>Вы выиграли!</h2>
+            </span>
+            <span>
+                <input  onclick="CloseWindow()" name="close" value="x" type="button">
+            </span>
+        </div>   
+
+    </section>
+
+    <script src="sourse/js/main.js"></script>
+</body>
+
+</html>
