@@ -12,11 +12,11 @@ var canvasWidth = 500;
 var size = canvasWidth / n;
 
 
-// располагает рандомно бомбы
+// has random bombs
 function randomBoombs() {
-    // располагает рандомно x кординаты
+    // has randomly x coordinates
     let x = Math.floor((Math.random() * n)); 
-    // располагает рандомно y кординаты
+    // has randomly y coordinates
     let y = Math.floor((Math.random() * n)); 
 
     if (mas[y][x] == 3 || mas[y][x] == "boomb") {
@@ -47,16 +47,16 @@ function goSapper() {
 }
 
 
-// новая игра
+// new game
 function newGame() {
-    // збрасываем переменные
+    // reset the variables
     mas = [];
     mas_flags = [];
     flagDead = false;
     firstMove = true;
     count = 0;
 
-    // заполняем переменные заново
+    // re-fill the variables
     goSapper();
 }
 newGame();
@@ -64,30 +64,30 @@ newGame();
 document.getElementById('buttonReset').onclick = newGame;
 
 
-// делает территорию рядом над стройка над makePlace();
+// makes the area next to the construction site above the makePlace();
 function makeAroundPlace(i, j) {
-    try {mas[i - 1][j] = "full_cell";} catch (e) {} // сверху
-    try {mas[i][j + 1] = "full_cell";} catch (e) {} // справо
-    try {mas[i + 1][j] = "full_cell";} catch (e) {} // снизу
-    try {mas[i][j - 1] = "full_cell";} catch (e) {} // слево
+    try {mas[i - 1][j] = "full_cell";} catch (e) {} // from above
+    try {mas[i][j + 1] = "full_cell";} catch (e) {} // reference
+    try {mas[i + 1][j] = "full_cell";} catch (e) {} // from below
+    try {mas[i][j - 1] = "full_cell";} catch (e) {} // left
 
-    try {mas[i - 1][j + 1] = "full_cell";} catch (e) {} // сверху справо
-    try {mas[i + 1][j + 1] = "full_cell";} catch (e) {} // снизу справо
-    try {mas[i + 1][j - 1] = "full_cell";} catch (e) {} // слево снизу
-    try {mas[i - 1][j - 1] = "full_cell";} catch (e) {} // сверху слево 
+    try {mas[i - 1][j + 1] = "full_cell";} catch (e) {} // from top to bottom
+    try {mas[i + 1][j + 1] = "full_cell";} catch (e) {} // from bottom right
+    try {mas[i + 1][j - 1] = "full_cell";} catch (e) {} // from bottom left
+    try {mas[i - 1][j - 1] = "full_cell";} catch (e) {} // from top left 
 }   
 
-// функцимя открывающая начальное поля
+// function opening the initial field
 function makePlace(i, j) {
-    // функция подсчёта бомб рядом
+    // Bomb Counting Function Nearby
     let _neighbors_ = neighbors_(i, j);
 
-    // если нет бомб рядом, и клетка пустая, то дальше
+    // If there are no bombs nearby and the cell is empty, then continue
     if (_neighbors_ == 0 && mas[i][j] == 0) {
-        // заполняем клетку
+        // we fill the cell
         mas[i][j] = "full_cell";
 
-        // рекурсия.
+        // recursion.
         try {makePlace(i - 1, j);} catch (e) {}
         try {makePlace(i, j + 1);} catch (e) {}
         try {makePlace(i + 1, j);} catch (e) {}
@@ -107,7 +107,7 @@ function makePlace(i, j) {
 }
 
 
-// функция которая считает соседей
+// A function that counts neighbors
 function neighbors_(i, j, name = "boomb") {
     let neighbors = 0;
     let _count_ = name;
@@ -130,7 +130,7 @@ function neighbors_(i, j, name = "boomb") {
 }
 
 
-// количество бомб
+// bomb count
 function totalBomb() {
     let count_boomb = 0;
     let count_flag = 0;
@@ -156,7 +156,7 @@ function totalBomb() {
     return count_boomb;
 }
 
-// проверка на выигрыш
+// winnings test
 function checkWin() {
     var count = 0;
     for (let i = 0; i < n; i++) {
@@ -174,14 +174,14 @@ function checkWin() {
 }
 
 
-// шифт функция
+// shift function
 function shiftFunction(y, x) {
     let neighbors_boomb = neighbors_(y, x);
 
     if (mas[y][x] == "boomb" && mas_flags[y][x] != "flag") {
         flagDead = true;
         drawField();
-        setInterval(alert("вы проиграли"), 300);        
+        setInterval(alert("you have lost"), 300);        
         return;
     } else if (mas[y][x] == 0 && mas_flags[y][x] != "flag") {
         if (mas[y][x] == 0 && neighbors_boomb == 0) {
@@ -196,20 +196,20 @@ function shiftFunction(y, x) {
 
 
 function drawField() {
-    // очищаем поле каждый кадр
+    // clear the field every frame
 	ctx.clearRect(0, 0, canvasWidth, canvasWidth);
 
-    // ввод переменой Image
+    // Enter the Image variable
     var images = new Image();
 
     totalBomb();
 
 	for (var i = 0; i < n; i++){
 		for (var j = 0; j < n; j++){
-            // ввод переменой neighbors
+            // input the neighbors variable
             let neighbors = neighbors_(i, j);
 
-            // если это флаг то ставим изображение флага на место
+            // If it is a flag, then put the flag image in place
             if (mas_flags[i][j] == "flag") {
                 ctx.beginPath()
                 images.src = "Images/flag.png";
@@ -218,9 +218,9 @@ function drawField() {
                 ctx.closePath();
             } 
 
-            // если это не флаг то красим клетку
+            // If it's not a flag, then paint the cage
             if (mas_flags[i][j] != "flag") {
-                // задём цвет пустой клетки 
+                // the color of the empty cell 
                 ctx.beginPath();   
                 
                 ctx.fillStyle =  "#C0BEC1";
@@ -230,7 +230,7 @@ function drawField() {
                 ctx.closePath();               
             }
 
-            // проверка на смерть, если да, показ всез бомб на экран
+            // check for death, if yes, show all the bombs on the screen
             if (mas[i][j] == "boomb" && flagDead == true) {
                 ctx.beginPath();
                 images.src = "Images/boomb.png";
@@ -239,20 +239,20 @@ function drawField() {
                 ctx.closePath();   
             }
 
-            // если клетка заполненна
+            // if the cell is full
             if (mas[i][j] == "full_cell") {
                 ctx.beginPath();
                 ctx.fillStyle = "#B9B6BF";
                 ctx.fillRect(j * size, i * size, size, size);
                 ctx.closePath();
                 if (mas[i][j] != "boomb" && neighbors <= 8) {
-                    // задём цвет заполненной клетки
+                    // the color of the filled cell
                     ctx.beginPath();
                     ctx.fillStyle =  "#B9B6BF";
                     ctx.fillRect(j * size, i * size, size, size);
                     ctx.closePath();
                     
-                    // изменяет цвет текста при разном количетсво соседях
+                    // Changes the color of the text with different number of neighbors
                     if (neighbors == 1) {ctx.fillStyle = "#008000";}
                     if (neighbors == 2) {ctx.fillStyle = "#FF0000";}
                     if (neighbors == 3) {ctx.fillStyle =  "#EDE0C8";}
@@ -262,10 +262,10 @@ function drawField() {
                     if (neighbors == 7) {ctx.fillStyle =  "#F65E3B";}
                     if (neighbors == 8) {ctx.fillStyle =  "red";}   
                         
-                    // размер текста 20px
+                    // text size 20px
                     ctx.font = "20px Verdana";
 
-                    // размещение текста по середине
+                    // text placement in the middle
                     ctx.textAlign = "center";
 
                     ctx.fillText(neighbors, (j*size) + (size/2), (i*size) + (size/2) + 5);
@@ -278,20 +278,20 @@ function drawField() {
 }
 
 
-// ивент по нажатию мыжки
+// Event by pressing a mouse button
 canvas.addEventListener("mousedown", function(event) {
     drawField();
-    // х кордината
+    // x cordinate
     let x = event.offsetX;
-    // y кордината
+    // y cordinate
     let y = event.offsetY;
 
     x = Math.floor(x / size);
     y = Math.floor(y / size);
 
-    // левая кнопка мыши
+    // left mouse button
     if (event.button == 0) {
-        // если первый ход
+        // if the first move
         if (firstMove == true) {
             mas[y][x] = 3;
             try {mas[y - 1][x] = 3;} catch (e) {}
@@ -329,7 +329,7 @@ canvas.addEventListener("mousedown", function(event) {
             checkWin();      
         }
            
-        // если ты нажал на бомбу
+        // If you clicked on the bomb
         if (mas[y][x] == "boomb") {
             if (firstMove == false) {
                 flagDead = true;
@@ -361,7 +361,7 @@ canvas.addEventListener("mousedown", function(event) {
         drawField();
     }   
 
-    // правая  кнопка мыши
+    // right mouse button
     if (event.button == 2) {
         if (mas[y][x] != "full_cell") {
             if (mas_flags[y][x] == "flag") {
@@ -377,7 +377,7 @@ canvas.addEventListener("mousedown", function(event) {
 
 drawField();
 
-// выключает контексное меню
+// turns off the context menu
 function disablecontext(e) {
 	var clickedEl = (e == null) ? e.srcElement.tagName : e.target.tagName;
 	if (clickedEl == "CANVAS") {
