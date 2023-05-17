@@ -333,7 +333,7 @@ canvas.addEventListener("mousedown", function(event) {
         if (mas[y][x] == "boomb") {
             if (firstMove == false) {
                 flagDead = true;
-                alert("вы проиграли");   
+                alert("you lost");   
             }
         } else if (flagDead != true) {
             if (event.shiftKey) {
